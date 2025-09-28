@@ -1,8 +1,8 @@
 # app.R
 # ============================================================
-# Palmatica — Shiny (sin raster pesado)
-# - Capa principal: Palmatica_Promedio_Plantas.gpkg (POINT recomendado)
-# - Overlays: Sub_Lote_Palmatica_Plantas.gpkg (opcional), Palmatica_Promedio.gpkg (opcional)
+# Palma Africana — Shiny (sin raster pesado)
+# - Capa principal: Nombre_Promedio_Plantas.gpkg (POINT recomendado)
+# - Overlays: Sub_Lote_Nombre_Plantas.gpkg (opcional), Nombre_Promedio.gpkg (opcional)
 # - Fondo: Esri.WorldImagery
 # - Clasificación: BAJO / MEDIO / ALTO
 # - Extras:
@@ -153,7 +153,7 @@ pick_sublote_layer <- function(gpkg_path) {
 
 # ---------- Carga de datos ----------
 status_msgs <- c()
-if (!file.exists(path_main)) stop("No se encontró 'Palmatica_Promedio_Plantas.gpkg' en: ", data_dir)
+if (!file.exists(path_main)) stop("No se encontró 'Nombre_Promedio_Plantas.gpkg' en: ", data_dir)
 
 main_layer_name <- pick_main_layer(path_main)
 plantas_raw <- sf::st_read(path_main, layer = main_layer_name, quiet = TRUE) |> janitor::clean_names()
@@ -503,7 +503,7 @@ server <- function(input, output, session) {
                   options = list(scrollX = TRUE, pageLength = 15))
   })
   output$dl_tabla <- downloadHandler(
-    filename = function() sprintf("palmatica_clasificacion_%s.csv", format(Sys.Date(), "%Y%m%d")),
+    filename = function() sprintf("Nombre_clasificacion_%s.csv", format(Sys.Date(), "%Y%m%d")),
     content  = function(file) {
       d <- r_classified() |> sf::st_drop_geometry()
       if ("class" %in% names(d)) d <- d |> dplyr::select(-class)
@@ -696,4 +696,5 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
+
 
