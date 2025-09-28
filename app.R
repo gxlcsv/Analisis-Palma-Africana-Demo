@@ -19,7 +19,7 @@
 # ---------- Paquetes ----------
 req_pkgs <- c(
   "shiny","shinyWidgets","sf","dplyr","stringr","janitor",
-  "leaflet","leaflet.extras","DT","ggplot2","tidyr","scales","readr","rsconnect"
+  "leaflet","leaflet.extras","DT","ggplot2","tidyr","scales","readr"
 )
 to_install <- req_pkgs[!vapply(req_pkgs, requireNamespace, logical(1), quietly = TRUE)]
 if (length(to_install)) install.packages(to_install, dependencies = TRUE)
@@ -33,7 +33,7 @@ options(shiny.maxRequestSize = 500*1024^2)
 `%||%` <- function(a,b) if(!is.null(a)) a else b
 
 # ---------- RUTA DE DATOS ----------
-data_dir <- "C:/Users/Usuario/Documents/PalmaticaApp/data"
+data_dir <- normalizePath(file.path(getwd(), "data"), winslash = "/", mustWork = TRUE)
 path_main <- file.path(data_dir, "Nombre_Promedio_Plantas.gpkg")
 path_subl <- file.path(data_dir, "Sub_Lote_Nombre_Plantas.gpkg")
 path_prom <- file.path(data_dir, "Nombre_Promedio.gpkg")
@@ -54,13 +54,6 @@ gxl_logo_tag <- function() {
            tags$img(src = src, alt = "Green Xpo Lab", title = "Green Xpo Lab",
                     style = "height:80px;"))
 }
-
-setwd("C:/Users/Usuario/Documents/PalmaticaApp")  # carpeta donde están PalmaApp.R y data/
-# Si tu archivo principal es PalmaApp.R:
-rsconnect::writeManifest(appPrimaryDoc = "app.R")
-
-# (Alternativa) Si usas un wrapper app.R:
-# rsconnect::writeManifest(appPrimaryDoc = "app.R")
 
 # ---------- Utilitarios ----------
 ensure_crs_4326 <- function(x) {
@@ -703,3 +696,4 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
+
