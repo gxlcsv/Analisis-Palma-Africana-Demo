@@ -33,7 +33,7 @@ options(shiny.maxRequestSize = 500*1024^2)
 `%||%` <- function(a,b) if(!is.null(a)) a else b
 
 # ---------- RUTA DE DATOS ----------
-data_dir <- "C:/Users/Usuario/Documents/NombreApp/data"
+data_dir <- normalizePath(file.path(getwd(), "data"), winslash = "/", mustWork = TRUE)
 path_main <- file.path(data_dir, "Nombre_Promedio_Plantas.gpkg")
 path_subl <- file.path(data_dir, "Sub_Lote_Nombre_Plantas.gpkg")
 path_prom <- file.path(data_dir, "Nombre_Promedio.gpkg")
@@ -755,4 +755,5 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
+
 
